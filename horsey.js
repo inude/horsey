@@ -501,9 +501,23 @@ function autocomplete (el, options = {}) {
     }
   }
 
+  function scrollIntoView( li ) {
+		var offset, scroll, elementHeight, itemHeight;
+		offset = li.offsetTop
+		scroll = container.scrollTop;
+		elementHeight = container.offsetHeight;
+    itemHeight = li.offsetHeight;
+		if ( offset <= 0 ) {
+			container.scrollTo(0, 0 )
+		} else if ( offset + itemHeight > elementHeight ) {
+      container.scrollTo(0, offset + itemHeight - elementHeight)
+		}
+	}
+
   function select (li) {
     unselect();
     if (li) {
+      scrollIntoView(li)
       selection = li;
       selection.className += ' sey-selected';
     }

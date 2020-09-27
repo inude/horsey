@@ -1,6 +1,6 @@
 {
-  "name": "horsey",
-  "version": "4.2.2",
+  "name": "horsey-ybg",
+  "version": "4.2.12",
   "description": "Progressive and customizable autocomplete component",
   "main": "horsey.es5.js",
   "scripts": {
@@ -28,7 +28,7 @@
     "crossvent": "1.5.4",
     "fuzzysearch": "1.0.3",
     "hash-sum": "1.0.2",
-    "lodash": "4.13.1",
+    "lodash": "^4.17.19",
     "sektor": "1.1.4",
     "sell": "1.0.0"
   },
@@ -38,9 +38,9 @@
     "babelify": "7.3.0",
     "browserify": "13.0.1",
     "clean-css": "3.0.4",
-    "jshint": "2.9.2",
-    "nib": "1.0.4",
-    "stylus": "0.49.3",
+    "jshint": "^2.12.0",
+    "nib": "^1.1.2",
+    "stylus": "^0.54.8",
     "uglify-js": "2.4.16",
     "watchify": "2.2.1"
   }

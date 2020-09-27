@@ -32,6 +32,8 @@ var _debounce = require('lodash/debounce');
 
 var _debounce2 = _interopRequireDefault(_debounce);
 
+var inputOk = true;
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
@@ -668,9 +670,23 @@ function autocomplete(el) {
     }
   }
 
+  function scrollIntoView( li ) {
+		var offset, scroll, elementHeight, itemHeight;
+		offset = li.offsetTop
+		scroll = container.scrollTop;
+		elementHeight = container.offsetHeight;
+    itemHeight = li.offsetHeight;
+		if ( offset <= 0 ) {
+			container.scrollTo(0, 0 )
+		} else if ( offset + itemHeight > elementHeight ) {
+      container.scrollTo(0, offset + itemHeight - elementHeight)
+		}
+	}
+
   function select(li) {
     unselect();
     if (li) {
+      scrollIntoView(li)
       selection = li;
       selection.className += ' sey-selected';
     }
@@ -772,6 +788,10 @@ function autocomplete(el) {
         hide();
         stop(e);
       }
+    }else{
+      if (anyInput && o.autoShowOnUpDown) {
+        show();
+      }
     }
   }
 
@@ -794,6 +814,9 @@ function autocomplete(el) {
 
   function filtering() {
     if (!visible()) {
+      return;
+    }
+    if(!inputOk){
       return;
     }
     debouncedLoading(true);
@@ -895,6 +918,15 @@ function autocomplete(el) {
     hide();
   }
 
+  function compositionstart(){
+    inputOk = false
+  }
+
+  function compositionend(){
+    inputOk = true
+    filtering()
+  }
+
   function inputEvents(remove) {
     var op = remove ? 'remove' : 'add';
     if (eye) {
@@ -917,9 +949,12 @@ function autocomplete(el) {
     }
     if (anyInput) {
       _crossvent2.default[op](attachment, 'keypress', deferredShow);
-      _crossvent2.default[op](attachment, 'keypress', deferredFiltering);
+      // _crossvent2.default[op](attachment, 'keypress', deferredFiltering);
       _crossvent2.default[op](attachment, 'keydown', deferredFilteringNoEnter);
-      _crossvent2.default[op](attachment, 'paste', deferredFiltering);
+      // _crossvent2.default[op](attachment, 'paste', deferredFiltering);
+      _crossvent2.default[op](attachment, 'input', filtering);
+      _crossvent2.default[op](attachment, 'compositionstart', compositionstart);
+      _crossvent2.default[op](attachment, 'compositionend', compositionend);
       _crossvent2.default[op](attachment, 'keydown', keydown);
       if (o.autoHideOnBlur) {
         _crossvent2.default[op](attachment, 'keydown', hideOnBlur);
