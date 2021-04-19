@@ -122,7 +122,7 @@ function horsey(el) {
     var limit = data.limit;
 
     if (!options.blankSearch && query.length === 0) {
-      done(null, [], true);return;
+      done(null, [], true); return;
     }
     if (completer) {
       completer.emit('beforeUpdate');
@@ -136,7 +136,7 @@ function horsey(el) {
         var diff = duration * 1000;
         var fresh = new Date(start + diff) > new Date();
         if (fresh) {
-          done(null, entry.items.slice());return;
+          done(null, entry.items.slice()); return;
         }
       }
     }
@@ -647,7 +647,9 @@ function autocomplete(el) {
   }
 
   function show() {
-    eye.refresh();
+    if (eye) {
+      eye.refresh()
+    }
     if (!visible()) {
       container.className += ' sey-show';
       _crossvent2.default.fabricate(attachment, 'horsey-show');
@@ -670,18 +672,18 @@ function autocomplete(el) {
     }
   }
 
-  function scrollIntoView( li ) {
-		var offset, scroll, elementHeight, itemHeight;
-		offset = li.offsetTop
-		scroll = container.scrollTop;
-		elementHeight = container.offsetHeight;
+  function scrollIntoView(li) {
+    var offset, scroll, elementHeight, itemHeight;
+    offset = li.offsetTop
+    scroll = container.scrollTop;
+    elementHeight = container.offsetHeight;
     itemHeight = li.offsetHeight;
-		if ( offset <= 0 ) {
-			container.scrollTo(0, 0 )
-		} else if ( offset + itemHeight > elementHeight ) {
+    if (offset <= 0) {
+      container.scrollTo(0, 0)
+    } else if (offset + itemHeight > elementHeight) {
       container.scrollTo(0, offset + itemHeight - elementHeight)
-		}
-	}
+    }
+  }
 
   function select(li) {
     unselect();
@@ -788,7 +790,7 @@ function autocomplete(el) {
         hide();
         stop(e);
       }
-    }else{
+    } else {
       if (anyInput && o.autoShowOnUpDown) {
         show();
       }
@@ -816,14 +818,14 @@ function autocomplete(el) {
     if (!visible()) {
       return;
     }
-    if(!inputOk){
+    if (!inputOk) {
       return;
     }
     debouncedLoading(true);
     _crossvent2.default.fabricate(attachment, 'horsey-filter');
     var value = readInput();
     if (!o.blankSearch && !value) {
-      hide();return;
+      hide(); return;
     }
     var nomatch = noMatches({ query: value });
     var count = walkCategories();
@@ -918,11 +920,11 @@ function autocomplete(el) {
     hide();
   }
 
-  function compositionstart(){
+  function compositionstart() {
     inputOk = false
   }
 
-  function compositionend(){
+  function compositionend() {
     inputOk = true
     filtering()
   }
